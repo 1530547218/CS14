@@ -1,0 +1,117 @@
+﻿C＃企业级开发技术练习14答题卡
+
+班级：信息管理2班 
+姓名：黄家福
+学号：20190307227
+
+*注：排除答案放置在序号下方。* /
+
+（一）
+使用系统；
+使用System.Threading;
+使用System.Threading.Tasks;
+使用System.Collections.Generic;
+命名空间ConsoleApp1
+{
+    班级计划
+    {
+        静态void Main（string [] args）
+        {
+            Stack <int> stk =新的Stack <int>（）;
+            int [] arr = {20，19，22，21，98，79，26};
+            foreach（int a in arr）
+                stk.Push（a）;
+            任务tk（）
+            { 
+                任务tsk = Task.Run（（）=>
+                {
+                    而（真）
+                    {
+                        锁（arr）
+                        {
+                            如果（arr.Length == 0）中断;
+                            var id = Thread.CurrentThread.ManagedThreadId;
+                            Thread.Sleep（1000）;
+                            var r = stk.Pop（）;
+                            Console.WriteLine（$“进程{id}删除元素{r}，剩余{stk.Count}个”“）;
+                        }
+                    }
+                }）;
+            }
+            Task [] tsk = new Task [5];
+            对于（int n = 0; n <5; n ++）
+            {
+                tsk [n] = tk（）;
+            }
+            tsk [4] .Wait（）;
+            Console.WriteLine（“ end”）;
+        }
+    }
+}
+
+
+（二）
+使用系统；
+使用System.Threading.Tasks;
+命名空间ConsoleApp2
+{
+    班级计划
+    {
+        静态void Main（string [] args）
+        {
+            十进制税（（十进制，十进制）付）
+            {
+                Task <decimal> payTk =新Task <decimal>（s =>
+                {
+                    var pay =（（十进制薪水，十进制扣除））s;
+                    退还pay.pay-pay.deduct;
+                }，工资）;
+                payTk.Start（）;
+                var paytk = payTk.ContinueWith（t => t.Result-5000）.ContinueWith（t => t.Result * 0.03m）;
+                如果（paytk.Result <0）返回0;
+                否则返回paytk.Result;
+            };
+            （十进制薪水，十进制扣除）[]薪水= {（5000，1000），（8000，0），（10000，3000）};
+            foreach（以薪水为单位的无薪）
+            {
+                Console.WriteLine（$“工资{pay.pay}附加替换{pay.deduct}胰岛素{Tax（pay）}”）；
+            }
+        }
+    }
+}
+
+
+（三）
+使用系统；
+使用System.Threading.Tasks;
+使用System.IO;
+使用System.Collections.Generic;
+使用System.Threading.Tasks.Sources;
+
+命名空间ConsoleApp3
+{
+    班级计划
+    {
+        静态void Main（string [] args）
+        {
+            List <string> paFiles =新的List <string>（）;
+            对于（int i = 0; i <10; i ++）
+                paFiles.Add（“ paFile” + i.ToString（））;
+            随机rand = new Random（）;
+            Parallel.ForEach（paFiles，new ParallelOptions（）{MaxDegreeOfParallelism = 3}，pafile =>
+            {
+                var id = 0;
+                Console.WriteLine（$“线程{id}开始编写{pafile}”）;
+                int len = rand.Next（1，1000）;
+                byte [] txt =新的byte [len];
+                rand.NextBytes（txt）;
+                使用（FileStream fs = new FileStream（pafile，FileMode.Create））
+                {
+                    fs.Write（txt）;
+                }
+                Console.WriteLine（$“线程{id}写入{pafile}，{len}字节”）；
+            }
+        }
+    }
+}
+
